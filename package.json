@@ -11,11 +11,6 @@
     "typecheck": "tsc --skipLibCheck --noEmit",
     "build": "bob build"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/computerjazz/react-native-draggable-flatlist.git"

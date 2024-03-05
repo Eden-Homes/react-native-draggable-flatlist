@@ -278,9 +278,11 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
       );
       if (
         gestureDisabled.value ||
-        (props.dragMinimalYOffset &&
+        (
+          props.dragMinimalYOffset &&
           props.dragMinimalYOffset > 0 &&
-          evt.absoluteY < props.dragMinimalYOffset)
+          evt.absoluteY < props.dragMinimalYOffset
+        )
       )
         return;
       panGestureState.value = evt.state;
