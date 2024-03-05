@@ -279,11 +279,8 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
       if (gestureDisabled.value) return;
 
       if (props.dragMinimalOffset && props.dragMinimalOffset > 0) {
-        if (horizontalAnim.value) {
-          if (evt.absoluteX < props.dragMinimalOffset) return;
-        } else {
-          if (evt.absoluteY < props.dragMinimalOffset) return;
-        }
+        console.log("horizontalAnim.value", horizontalAnim.value);
+        if (evt.absoluteY < props.dragMinimalOffset) return;
       }
 
       panGestureState.value = evt.state;
