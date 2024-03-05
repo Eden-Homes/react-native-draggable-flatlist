@@ -96,10 +96,6 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
     activationDistance: activationDistanceProp = DEFAULT_PROPS.activationDistance,
   } = props;
 
-  const evtCache = useRef<GestureUpdateEvent<PanGestureHandlerEventPayload> | null>(
-    null
-  );
-
   let [activeKey, setActiveKey] = useState<string | null>(null);
   const [layoutAnimationDisabled, setLayoutAnimationDisabled] = useState(
     !propsRef.current.enableLayoutAnimationExperimental
@@ -268,6 +264,9 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
   );
 
   const gestureDisabled = useSharedValue(false);
+  const evtCache = useSharedValue<GestureUpdateEvent<PanGestureHandlerEventPayload> | null>(
+    null
+  );
 
   const panGesture = Gesture.Pan()
     .onBegin((evt) => {
@@ -291,15 +290,15 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
         ? evt.translationX
         : evt.translationY;
 
-      evtCache.current = evt;
+      evtCache.value = evt;
     })
     .onEnd((_evt) => {
       if (gestureDisabled.value) return;
       // Set touch val to current translate val
       isTouchActiveNative.value = false;
 
-      const evt = evtCache.current ? evtCache.current : _evt;
-      console.log("ending evt", _evt, evtCache.current, evt);
+      const evt = evtCache.value ? evtCache.value : _evt;
+      console.log("ending evt", _evt, evtCache.value, evt);
 
       const translation = horizontalAnim.value
         ? evt.translationX
