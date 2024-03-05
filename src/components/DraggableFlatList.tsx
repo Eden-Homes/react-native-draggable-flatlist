@@ -6,11 +6,12 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { ListRenderItem, FlatListProps, LayoutChangeEvent } from "react-native";
+import { FlatListProps, LayoutChangeEvent, ListRenderItem } from "react-native";
 import {
   FlatList,
   Gesture,
   GestureDetector,
+  GestureUpdateEvent,
   PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import Animated, {
@@ -21,7 +22,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import CellRendererComponent from "./CellRendererComponent";
-import { DEFAULT_PROPS, isWeb } from "../constants";
+import { DEFAULT_PROPS } from "../constants";
 import PlaceholderItem from "./PlaceholderItem";
 import RowItem from "./RowItem";
 import { DraggableFlatListProps } from "../types";
@@ -35,7 +36,6 @@ import { useAutoScroll } from "../hooks/useAutoScroll";
 import { useStableCallback } from "../hooks/useStableCallback";
 import ScrollOffsetListener from "./ScrollOffsetListener";
 import { typedMemo } from "../utils";
-import { GestureUpdateEvent } from "react-native-gesture-handler";
 
 type RNGHFlatListProps<T> = Animated.AnimateProps<
   FlatListProps<T> & {
@@ -279,15 +279,17 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
       if (gestureDisabled.value) return;
 
       if (props.dragMinimalOffset && props.dragMinimalOffset > 0) {
-        console.log("horizontalAnim.value", horizontalAnim.value);
-        if (evt.absoluteY < props.dragMinimalOffset) return;
+        if (horizontalAnim.value) {
+          if (evt.absoluteX < props.dragMinimalOffset) return;
+        } else {
+          if (evt.absoluteY < props.dragMinimalOffset) return;
+        }
       }
 
       panGestureState.value = evt.state;
-      const translation = horizontalAnim.value
+      touchTranslate.value = horizontalAnim.value
         ? evt.translationX
         : evt.translationY;
-      touchTranslate.value = translation;
 
       evtCache.current = evt;
     })
@@ -297,6 +299,7 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
       isTouchActiveNative.value = false;
 
       const evt = evtCache.current ? evtCache.current : _evt;
+      console.log("ending evt", _evt, evtCache.current, evt);
 
       const translation = horizontalAnim.value
         ? evt.translationX
