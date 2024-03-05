@@ -270,21 +270,17 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
       panGestureState.value = evt.state;
     })
     .onUpdate((evt) => {
-      console.log(
-        "gestureDisabled",
-        gestureDisabled,
-        evt.absoluteY,
-        props.dragMinimalYOffset
-      );
+      console.log("evt", evt);
+      if (gestureDisabled.value) return;
+
       if (
-        gestureDisabled.value ||
-        (
-          props.dragMinimalYOffset &&
-          props.dragMinimalYOffset > 0 &&
-          evt.absoluteY < props.dragMinimalYOffset
-        )
-      )
+        props.dragMinimalYOffset &&
+        props.dragMinimalYOffset > 0 &&
+        evt.absoluteY < props.dragMinimalYOffset
+      ) {
         return;
+      }
+
       panGestureState.value = evt.state;
       const translation = horizontalAnim.value
         ? evt.translationX
@@ -295,6 +291,7 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
       if (gestureDisabled.value) return;
       // Set touch val to current translate val
       isTouchActiveNative.value = false;
+      console.log("END: evt", evt)
       const translation = horizontalAnim.value
         ? evt.translationX
         : evt.translationY;
