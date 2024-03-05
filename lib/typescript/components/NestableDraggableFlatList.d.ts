@@ -3,7 +3,7 @@ import Animated from "react-native-reanimated";
 import { DraggableFlatListProps } from "../types";
 import { FlatList } from "react-native-gesture-handler";
 declare function NestableDraggableFlatListInner<T>(props: DraggableFlatListProps<T>, ref?: React.ForwardedRef<FlatList<T>>): JSX.Element;
-export declare const NestableDraggableFlatList: <T>(props: Omit<import("react-native").FlatListProps<T>, "keyExtractor" | "data" | "renderItem" | "debug" | "scrollEnabled" | "autoscrollThreshold" | "autoscrollSpeed" | "animationConfig" | "dragHitSlop" | "activationDistance" | "dragItemOverflow" | "containerStyle" | "dragMinimalYOffset" | "onDragBegin" | "onDragEnd" | "onPlaceholderIndexChange" | "onRelease" | "onScrollOffsetChange" | "renderPlaceholder" | "simultaneousHandlers" | "outerScrollOffset" | "onAnimValInit" | "itemEnteringAnimation" | "itemExitingAnimation" | "itemLayoutAnimation" | "enableLayoutAnimationExperimental" | "onContainerLayout"> & {
+export declare const NestableDraggableFlatList: <T>(props: Omit<import("react-native").FlatListProps<T>, "keyExtractor" | "data" | "renderItem" | "debug" | "scrollEnabled" | "autoscrollThreshold" | "autoscrollSpeed" | "animationConfig" | "dragHitSlop" | "activationDistance" | "dragItemOverflow" | "containerStyle" | "dragMinimalOffset" | "onDragBegin" | "onDragEnd" | "onPlaceholderIndexChange" | "onRelease" | "onScrollOffsetChange" | "renderPlaceholder" | "simultaneousHandlers" | "outerScrollOffset" | "onAnimValInit" | "itemEnteringAnimation" | "itemExitingAnimation" | "itemLayoutAnimation" | "enableLayoutAnimationExperimental" | "onContainerLayout"> & {
     data: T[];
     activationDistance?: number | undefined;
     animationConfig?: Partial<import("react-native-reanimated").WithSpringConfig> | undefined;
@@ -12,7 +12,7 @@ export declare const NestableDraggableFlatList: <T>(props: Omit<import("react-na
     containerStyle?: import("react-native").StyleProp<import("react-native").ViewStyle>;
     debug?: boolean | undefined;
     dragItemOverflow?: boolean | undefined;
-    dragMinimalYOffset?: number | undefined;
+    dragMinimalOffset?: number | undefined;
     keyExtractor: (item: T, index: number) => string;
     onDragBegin?: ((index: number) => void) | undefined;
     onDragEnd?: ((params: import("../types").DragEndParams<T>) => void) | undefined;

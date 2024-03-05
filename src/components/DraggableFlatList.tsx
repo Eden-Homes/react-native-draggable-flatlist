@@ -11,6 +11,7 @@ import {
   FlatList,
   Gesture,
   GestureDetector,
+  PanGestureHandlerEventPayload,
 } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
@@ -34,6 +35,7 @@ import { useAutoScroll } from "../hooks/useAutoScroll";
 import { useStableCallback } from "../hooks/useStableCallback";
 import ScrollOffsetListener from "./ScrollOffsetListener";
 import { typedMemo } from "../utils";
+import { GestureUpdateEvent } from "react-native-gesture-handler";
 
 type RNGHFlatListProps<T> = Animated.AnimateProps<
   FlatListProps<T> & {
@@ -93,6 +95,11 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
     scrollEnabled = DEFAULT_PROPS.scrollEnabled,
     activationDistance: activationDistanceProp = DEFAULT_PROPS.activationDistance,
   } = props;
+
+  const [
+    evtCache,
+    setEvtCache,
+  ] = useState<GestureUpdateEvent<PanGestureHandlerEventPayload> | null>(null);
 
   let [activeKey, setActiveKey] = useState<string | null>(null);
   const [layoutAnimationDisabled, setLayoutAnimationDisabled] = useState(
@@ -270,15 +277,14 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
       panGestureState.value = evt.state;
     })
     .onUpdate((evt) => {
-      console.log("evt", evt);
       if (gestureDisabled.value) return;
 
-      if (
-        props.dragMinimalYOffset &&
-        props.dragMinimalYOffset > 0 &&
-        evt.absoluteY < props.dragMinimalYOffset
-      ) {
-        return;
+      if (props.dragMinimalOffset && props.dragMinimalOffset > 0) {
+        if (horizontalAnim.value) {
+          if (evt.absoluteX < props.dragMinimalOffset) return;
+        } else {
+          if (evt.absoluteY < props.dragMinimalOffset) return;
+        }
       }
 
       panGestureState.value = evt.state;
@@ -286,12 +292,16 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
         ? evt.translationX
         : evt.translationY;
       touchTranslate.value = translation;
+
+      setEvtCache(evt);
     })
-    .onEnd((evt) => {
+    .onEnd((_evt) => {
       if (gestureDisabled.value) return;
       // Set touch val to current translate val
       isTouchActiveNative.value = false;
-      console.log("END: evt", evt)
+
+      const evt = evtCache ? evtCache : _evt;
+
       const translation = horizontalAnim.value
         ? evt.translationX
         : evt.translationY;
