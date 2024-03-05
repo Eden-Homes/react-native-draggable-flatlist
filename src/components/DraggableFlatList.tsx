@@ -96,10 +96,9 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
     activationDistance: activationDistanceProp = DEFAULT_PROPS.activationDistance,
   } = props;
 
-  const [
-    evtCache,
-    setEvtCache,
-  ] = useState<GestureUpdateEvent<PanGestureHandlerEventPayload> | null>(null);
+  const evtCache = useRef<GestureUpdateEvent<PanGestureHandlerEventPayload> | null>(
+    null
+  );
 
   let [activeKey, setActiveKey] = useState<string | null>(null);
   const [layoutAnimationDisabled, setLayoutAnimationDisabled] = useState(
@@ -293,14 +292,14 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
         : evt.translationY;
       touchTranslate.value = translation;
 
-      setEvtCache(evt);
+      evtCache.current = evt;
     })
     .onEnd((_evt) => {
       if (gestureDisabled.value) return;
       // Set touch val to current translate val
       isTouchActiveNative.value = false;
 
-      const evt = evtCache ? evtCache : _evt;
+      const evt = evtCache.current ? evtCache.current : _evt;
 
       const translation = horizontalAnim.value
         ? evt.translationX
