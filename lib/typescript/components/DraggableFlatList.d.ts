@@ -22,6 +22,7 @@ declare const _default: <T>(
     | "activationDistance"
     | "dragItemOverflow"
     | "containerStyle"
+    | "dragMinimalYOffset"
     | "onDragBegin"
     | "onDragEnd"
     | "onPlaceholderIndexChange"
@@ -49,6 +50,7 @@ declare const _default: <T>(
     >;
     debug?: boolean | undefined;
     dragItemOverflow?: boolean | undefined;
+    dragMinimalYOffset?: number | undefined;
     keyExtractor: (item: T, index: number) => string;
     onDragBegin?: ((index: number) => void) | undefined;
     onDragEnd?:

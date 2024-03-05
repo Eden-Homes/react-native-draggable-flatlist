@@ -21,6 +21,7 @@ export declare const NestableDraggableFlatList: <T>(
     | "activationDistance"
     | "dragItemOverflow"
     | "containerStyle"
+    | "dragMinimalYOffset"
     | "onDragBegin"
     | "onDragEnd"
     | "onPlaceholderIndexChange"
@@ -48,6 +49,7 @@ export declare const NestableDraggableFlatList: <T>(
     >;
     debug?: boolean | undefined;
     dragItemOverflow?: boolean | undefined;
+    dragMinimalYOffset?: number | undefined;
     keyExtractor: (item: T, index: number) => string;
     onDragBegin?: ((index: number) => void) | undefined;
     onDragEnd?:
