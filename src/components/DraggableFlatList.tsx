@@ -278,10 +278,11 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
       if (gestureDisabled.value) return;
 
       if (props.dragMinimalOffset && props.dragMinimalOffset > 0) {
-        if (horizontalAnim.value) {
-          if (evt.absoluteX < props.dragMinimalOffset) return;
-        } else {
-          if (evt.absoluteY < props.dragMinimalOffset) return;
+        const absXY = horizontalAnim.value ? evt.absoluteX : evt.absoluteY;
+
+        if (absXY < props.dragMinimalOffset) {
+          if (evtCache.value == null) evtCache.value = evt;
+          return;
         }
       }
 
