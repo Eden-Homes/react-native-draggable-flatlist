@@ -290,7 +290,6 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
       isTouchActiveNative.value = false;
 
       const evt = evtCache.value ? evtCache.value : _evt;
-      console.log("ending evt", _evt, evtCache.value, evt);
 
       const translation = horizontalAnim.value
         ? evt.translationX
