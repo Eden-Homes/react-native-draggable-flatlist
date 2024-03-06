@@ -20,7 +20,7 @@ export declare type DraggableFlatListProps<T> = Modify<FlatListProps<T>, {
     containerStyle?: StyleProp<ViewStyle>;
     debug?: boolean;
     dragItemOverflow?: boolean;
-    dragMinimalOffset?: number;
+    headerOffset?: number;
     keyExtractor: (item: T, index: number) => string;
     onDragBegin?: (index: number) => void;
     onDragEnd?: (params: DragEndParams<T>) => void;

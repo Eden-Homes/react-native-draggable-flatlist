@@ -111,12 +111,16 @@ function useSetupAnimatedValues<T>() {
 
     const offsetRelativeToScrollTop =
       touchPositionDiff.value + activeCellOffset.value;
-    const constrained = Math.min(
-      containerMinusActiveCell,
-      Math.max(scrollOffset.value, offsetRelativeToScrollTop)
+    const constrained = Math.max(
+      props.headerOffset ?? 0,
+      Math.min(
+        containerMinusActiveCell,
+        Math.max(scrollOffset.value, offsetRelativeToScrollTop)
+      )
     );
 
-    const maxTranslateNegative = -activeCellOffset.value;
+    const maxTranslateNegative =
+      -activeCellOffset.value + (props.headerOffset ?? 0);
     const maxTranslatePositive =
       scrollViewSize.value - (activeCellOffset.value + activeCellSize.value);
 
